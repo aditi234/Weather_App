@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
 import Weather from './components/weather.component';
-import './weather-icons-master/css/weather-icons.css'
+import './weather-icons-master/css/weather-icons.css';
 import Form from './components/form.component'; 
 import Clear from './assets/clear.jpg';
-import Clouds from './assets/image.jpg';
+import Clouds from './assets/cloud.jpg';
+import Thunder from './assets/thunder.jpg';
+import Rain from './assets/rain.jpg';
+import Drizzle from './assets/drizzle.jpg';
+import Snow from './assets/snow.jpg';
+import Haze from './assets/haze.jpeg';
 //api call  api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
 const API_key="7335c82298e021518e15da2b03b5e832"
-
-
 
 class App extends React.Component {
   constructor(){
@@ -23,7 +26,7 @@ class App extends React.Component {
       temp_min: undefined,
       description: "",
       error:false,
-      color:"red"
+      image: ''
     };
   
     this.weatherIcon={
@@ -49,30 +52,36 @@ class App extends React.Component {
     switch(true){
       case rangeId>=200&&rangeId<=232:
          this.setState({icon:this.weatherIcon.Thunderstorm,
-                        color:"blue"});
+                        image: Thunder});
          break;
       case rangeId>=300&&rangeId<=321:
-         this.setState({icon:this.weatherIcon.Drizzle});
+         this.setState({icon:this.weatherIcon.Drizzle,
+                        image: Drizzle});
          break;
       case rangeId>=500&&rangeId<=531:
-         this.setState({icon:this.weatherIcon.Rain});
+         this.setState({icon:this.weatherIcon.Rain,
+                        image: Rain});
          break;    
       case rangeId>=600&&rangeId<=622:
-         this.setState({icon:this.weatherIcon.Snow});
+         this.setState({icon:this.weatherIcon.Snow,
+                        image: Snow});
          break;
       case rangeId>=701&&rangeId<=781:
          this.setState({icon:this.weatherIcon.Atmosphere,
-                        color:"yellow"});
+                        image: Haze});
          break;
       case rangeId===800:
-         this.setState({icon:this.weatherIcon.Clear});
+         this.setState({icon:this.weatherIcon.Clear,
+                        image: Clear});
 
          break;   
       case rangeId>=801&&rangeId<=804:
-         this.setState({icon:this.weatherIcon.Clouds});
+         this.setState({icon:this.weatherIcon.Clouds,
+                        image: Clouds});
          break; 
       default:
-         this.setState({icon:this.weatherIcon.Clouds});   
+         this.setState({icon:this.weatherIcon.Clear,
+                        image: Clear});   
     }
   }
 
@@ -103,10 +112,13 @@ class App extends React.Component {
  
 
   render() {
-    
     return (
-      <div className="App" style={ {backgroundColor:this.state.color,
-        backgroundPosition: 'center',
+      <div className="App" style={ {backgroundImage: `url(${this.state.image})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      height:"100%"
+
         } }>
 
         <Form loadweather={this.getWeather} error={this.state.error}/>

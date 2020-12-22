@@ -3,7 +3,7 @@ import "./form.style.css";
 
 const Form = props => {
   return (
-    <div className="container h-100">
+    <div className="container">
       <form onSubmit={props.loadweather}>
         <div>{props.error ? error() : null}</div>
         <div className="row">
