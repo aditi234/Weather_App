@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 import Weather from './components/weather.component';
-import 'weather-icons-master/css/weather-icons.css'
+import './weather-icons-master/css/weather-icons.css'
 import Form from './components/form.component'; 
+import Clear from './assets/clear.jpg';
+import Clouds from './assets/image.jpg';
 //api call  api.openweathermap.org/data/2.5/weather?q=London,uk&appid={API key}
 const API_key="7335c82298e021518e15da2b03b5e832"
+
+
 
 class App extends React.Component {
   constructor(){
@@ -18,7 +22,8 @@ class App extends React.Component {
       temp_max: undefined,
       temp_min: undefined,
       description: "",
-      error:false
+      error:false,
+      color:"red"
     };
   
     this.weatherIcon={
@@ -30,7 +35,10 @@ class App extends React.Component {
       Clear:"wi-day-sunny",
       Clouds:"wi-day-fog"
     }
+
+  
   }
+  
 
   calCelsius(temp){
     let cell=Math.floor(temp-273.15);
@@ -40,7 +48,8 @@ class App extends React.Component {
   get_WeatherIcon(icon,rangeId){
     switch(true){
       case rangeId>=200&&rangeId<=232:
-         this.setState({icon:this.weatherIcon.Thunderstorm});
+         this.setState({icon:this.weatherIcon.Thunderstorm,
+                        color:"blue"});
          break;
       case rangeId>=300&&rangeId<=321:
          this.setState({icon:this.weatherIcon.Drizzle});
@@ -52,19 +61,21 @@ class App extends React.Component {
          this.setState({icon:this.weatherIcon.Snow});
          break;
       case rangeId>=701&&rangeId<=781:
-         this.setState({icon:this.weatherIcon.Atmosphere});
+         this.setState({icon:this.weatherIcon.Atmosphere,
+                        color:"yellow"});
          break;
       case rangeId===800:
          this.setState({icon:this.weatherIcon.Clear});
+
          break;   
       case rangeId>=801&&rangeId<=804:
          this.setState({icon:this.weatherIcon.Clouds});
          break; 
       default:
-         this.setState({icon:this.weatherIcon.Clouds});          
+         this.setState({icon:this.weatherIcon.Clouds});   
     }
   }
-  
+
   getWeather=async(e)=>{
     e.preventDefault();
     
@@ -89,10 +100,15 @@ class App extends React.Component {
       this.setState({error:true});
     }
   }
+ 
 
   render() {
+    
     return (
-      <div className="App">
+      <div className="App" style={ {backgroundColor:this.state.color,
+        backgroundPosition: 'center',
+        } }>
+
         <Form loadweather={this.getWeather} error={this.state.error}/>
         <Weather 
         city={this.state.city} 
@@ -103,6 +119,8 @@ class App extends React.Component {
         description={this.state.description} 
         weatherIcon={this.state.icon}
         />
+
+       
       </div>
     );
   }
