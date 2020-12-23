@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Weather from './components/weather.component';
-import './weather-icons-master/css/weather-icons.css';
+import 'weather-icons-master/css/weather-icons.css';
 import Form from './components/form.component'; 
 import Clear from './assets/clear.jpg';
 import Clouds from './assets/cloud.jpg';
